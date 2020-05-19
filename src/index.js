@@ -5,12 +5,13 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import store from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Routing>
+    <Router>
       <App />
-    </Routing>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
