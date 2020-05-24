@@ -1,6 +1,6 @@
 import React from "react";
 import HomePage from "./pages/HomePage";
-import PostPage from "./components/PostPage";
+import PostPage from "./pages/PostPage";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 
