@@ -7,3 +7,4 @@ export const selectFeedPosts = state => {
     return state.feed.posts
   }
   
+    //state.feed.loading -> feed is from from slice reducer

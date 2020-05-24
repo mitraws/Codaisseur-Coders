@@ -5,3 +5,5 @@ export const selectPostAndComments = state => {
         comments: state.postPage.comments
     }
   }
+
+  //state.postPage.loading -> from slice reducer

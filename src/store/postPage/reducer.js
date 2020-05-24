@@ -14,7 +14,7 @@ export default function postPageSliceReducer(state = initialState, action) {
         }
         case "post/postsFetched": {
             return {
-                posts: action.payload.post,
+                post: action.payload.post,
                 comments: action.payload.comments,
                 Loading: false
             }

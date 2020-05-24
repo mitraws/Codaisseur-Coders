@@ -27,13 +27,36 @@ export default function PostPage() {
         <p>Loading...</p>
       ) : (
         <>
+          {console.log("data:", postData)}
           <h1>{postData.post.title}</h1>
-          <p className="meta">TODO</p>
+          <p className="meta">
+            By <strong>{postData.post.developer.name}</strong> &bull;{" "}
+            {moment(postData.post.createdAt).format("DD-MM-YYYY")} &bull;{" "}
+            {postData.post.tags.map((tag) => {
+              return <button key={tag.id}> {tag.tag} </button>;
+            })}
+          </p>
 
           <ReactMarkdown source={postData.post.content} />
 
           <h2>Comments</h2>
-          <p>TODO</p>
+          {postData.comments.rows.length === 0 ? (
+            <p>
+              <em>No comments left behind yet :(</em>
+            </p>
+          ) : (
+            postData.comments.rows.map(comment => {
+              return (
+                <div key={comment.id}>
+                  <p>{comment.text}</p>
+                  <p className="meta">
+                    By <strong>{comment.developer.name}</strong> &bull;{" "}
+                    {moment(comment.createdAt).format("DD-MM-YYYY")}{" "}
+                  </p>
+                </div>
+              );
+            })
+          )}
         </>
       )}
     </div>

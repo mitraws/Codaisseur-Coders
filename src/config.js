@@ -1,4 +1,5 @@
-export default function api() {
-    const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
+export default function apiUrl() {
+    return `https://codaisseur-coders-network.herokuapp.com`;
     
 }
+
