@@ -1,3 +1,7 @@
-export const selectFeedPosts = state => {
-    return state.feed.posts
+export const selectPostAndComments = state => {
+    return state.postPage.loading
+    ? null: {
+        post: state.postPage.post,
+        comments: state.postPage.comments
+    }
   }
