@@ -1,56 +1,53 @@
 // src/components/PostsFeed.js
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
+import { fetchNext5Posts } from "../store/feed/actions";
+import { selectFeedLoading, selectFeedPosts } from "../store/feed/selectors";
+
+// const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
 
 export default function PostsFeed() {
-  const [data, setData] = useState({
-    loading: true,
-    posts: [],
-  });
+  const dispatch = useDispatch();
 
-  async function fetchNext5Posts() {
-    setData({ ...data, loading: true });
-    const offset = data.posts.length;
-    const response = await axios.get(
-      `${API_URL}/posts?offset=${offset}&limit=5`
-    );
-    console.log("data:", data, "Offset:", offset, "MorePosts:", response);
+  const loading = useSelector(selectFeedLoading);
+  const posts = useSelector(selectFeedPosts);
 
-    const morePosts = response.data.rows;
-    // TODO
-    // fetch next set of posts (use offset+limit),
-    //  and define the variable `morePosts`
+  // async function fetchNext5Posts() {
+  //   setData({ ...data, loading: true });
+  //   const offset = data.posts.length;
+  //   const response = await axios.get(
+  //     `${API_URL}/posts?offset=${offset}&limit=5`
+  //   );
+  //   console.log("data:", data, "Offset:", offset, "MorePosts:", response);
 
-    setData({
-      loading: false,
-      posts: [...data.posts, ...morePosts],
-    });
-  }
+  //   const morePosts = response.data.rows;
+  //   // TODO
+  //   // fetch next set of posts (use offset+limit),
+  //   //  and define the variable `morePosts`
+
+  //   setData({
+  //     loading: false,
+  //     posts: [...data.posts, ...morePosts],
+  //   });
+  // }
 
   useEffect(() => {
-    fetchNext5Posts();
-  }, []);
+    dispatch(fetchNext5Posts);
+  }, [dispatch]);
 
   return (
     <div className="PostsFeed">
       <h1>Hello!</h1>
       <h2>Recent posts</h2>
-
-      {data.loading === true ? <h1>Loading...</h1> : null}
-
-      {data.posts.map((post) => {
+      {posts.map((post) => {
         return (
           <div key={post.id}>
+            <h3>{post.title}</h3>
             <p>
               {" "}
-              <strong>{post.title}</strong>{" "}
-            </p>
-            <p>
-              {" "}
-              {moment(post.updatedAt).format("DD-MM-YYYY")} •{" "}
+              {moment(post.createdAt).format("DD-MM-YYYY")} &bull;{" "}
               {post.tags.map((tag) => (
                 <button key={tag.id}>{tag.tag}</button>
               ))}{" "}
@@ -58,12 +55,13 @@ export default function PostsFeed() {
           </div>
         );
       })}
-      <button onClick={fetchNext5Posts}>Load more</button>
-
-      {/* TODO: render the list of posts */}
-
-      {/* TODO: show a loading indicator when the posts are loading,
-        or else a button to load more posts if not */}
+      <p>
+        {loading ? (
+          <em>Loading...</em>
+        ) : (
+      <button onClick={() => dispatch(fetchNext5Posts)}>Load more</button>
+      )}
+      </p>
     </div>
   );
 }
